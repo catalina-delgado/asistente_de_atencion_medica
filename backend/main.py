@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.api.router import api_router
+from api.router import api_router
 
 app = FastAPI(
     title="Medical Triage Chatbot",
