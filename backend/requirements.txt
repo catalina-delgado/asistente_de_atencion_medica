@@ -6,6 +6,7 @@ alembic
 pydantic
 pydantic-settings
 python-dotenv
-openai
-redis
 pytest
+httpx
+
+google-genai
