@@ -1,5 +1,5 @@
 from dataclasses import Field
-from models.paciente import Patient
+from app.models.paciente import Patient
 from pydantic import BaseModel
 
 

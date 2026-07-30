@@ -1,10 +1,10 @@
-from config.settings import get_settings
-from database.session_store import get_session_store
-from llm.factory import build_llm_adapter
-from repositories.conversacion_repository import ConversacionRepository
-from services.atencion_service import AtencionService
-from services.chat_service import ChatService
-from services.triage_service import TriageService
+from app.config.settings import get_settings
+from app.database.session_store import get_session_store
+from app.llm.factory import build_llm_adapter
+from app.repositories.conversation_repository import ConversacionRepository
+from app.services.attention_service import AtencionService
+from app.services.chat_service import ChatService
+from app.services.triage_service import TriageService
 
 _llm = build_llm_adapter(get_settings())
 _repo = ConversacionRepository(get_session_store())

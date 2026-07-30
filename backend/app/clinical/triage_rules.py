@@ -17,7 +17,7 @@ como "dolor fuerte en el pecho y dificultad para respirar".
 import unicodedata
 from dataclasses import dataclass
 
-from models.enums import NivelTriage as TriageLevel
+from app.models.enums import NivelTriage as TriageLevel
 
 PRIORIDAD_POR_TRIAGE: dict[TriageLevel, str] = {
     "I": "Emergencia inmediata",

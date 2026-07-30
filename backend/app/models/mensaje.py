@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from models.enums import RolMensaje
+from app.models.enums import RolMensaje
 
 
 class Mensaje(BaseModel):

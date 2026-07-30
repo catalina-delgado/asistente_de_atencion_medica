@@ -4,8 +4,8 @@ from dataclasses import dataclass, field
 from datetime import time
 from uuid import UUID
 
-from models.paciente import Paciente
-from models.mensaje import Mensaje
+from app.models.paciente import Paciente
+from app.models.mensaje import Mensaje
 from .enums import messageRole
 
 

@@ -1,6 +1,6 @@
 from dataclasses import Field
 from pydantic import BaseModel
-from models.enums import NivelTriage
+from app.models.enums import NivelTriage
 
 class TriageResponse(BaseModel):
     sessionId: str

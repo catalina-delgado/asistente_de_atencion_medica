@@ -1,7 +1,7 @@
-from config.settings import Settings
-from llm.base import LLMAdapter
-from llm.gemini import GeminiAdapter
-from llm.mock import MockAdapter
+from app.config.settings import Settings
+from app.llm.base import LLMAdapter
+from app.llm.gemini import GeminiAdapter
+from app.llm.mock import MockAdapter
 
 
 def build_llm_adapter(settings: Settings) -> LLMAdapter:

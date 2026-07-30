@@ -1,6 +1,6 @@
 import datetime
-from models.enums import NivelTriage
-from models.paciente import Patient
+from app.models.enums import NivelTriage
+from app.models.paciente import Patient
 from pydantic import BaseModel
 
 

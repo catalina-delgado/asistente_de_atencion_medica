@@ -2,18 +2,18 @@ from google import genai
 from google.genai import types
 from google.genai.errors import APIError
 
-from llm.base import IntakeReply, LLMAdapter, TriageSuggestion
-from models.enums import RolMensaje
-from models.mensaje import Mensaje
-from models.paciente import Paciente
-from asistente.backend.llm.prompts import (
+from app.llm.base import IntakeReply, LLMAdapter, TriageSuggestion
+from app.models.enums import RolMensaje
+from app.models.mensaje import Mensaje
+from app.models.paciente import Paciente
+from app.llm.prompts import (
     INTAKE_SYSTEM_PROMPT,
     RECOMENDACIONES_SYSTEM_PROMPT,
     RESUMEN_SYSTEM_PROMPT,
     TRIAGE_SYSTEM_PROMPT,
     extract_json,
 )
-from utils.errors import LLMProviderError
+from asistente.backend.app.utils.errors import LLMProviderError
 
 
 class GeminiAdapter(LLMAdapter):

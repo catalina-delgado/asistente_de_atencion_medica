@@ -1,8 +1,8 @@
-from asistente.backend.app.clinical.triage_rules import classify_by_rules
-from asistente.backend.app.llm.base import IntakeReply, LLMAdapter, TriageSuggestion
-from asistente.backend.app.models.enums import RolMensaje
-from asistente.backend.app.models.mensaje import Mensaje
-from asistente.backend.app.models.paciente import Paciente
+from app.clinical.triage_rules import classify_by_rules
+from app.llm.base import IntakeReply, LLMAdapter, TriageSuggestion
+from app.models.enums import RolMensaje
+from app.models.mensaje import Mensaje
+from app.models.paciente import Paciente
 
 _RECOMENDACIONES_POR_TRIAGE: dict[str, list[str]] = {
     "I": [

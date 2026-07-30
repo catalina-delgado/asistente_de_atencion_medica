@@ -1,12 +1,12 @@
-from clinical.rag_retriever import RetrievedProtocol, render_context, retrieve
-from clinical.triage_rules import PRIORIDAD_POR_TRIAGE, classify_by_rules, more_urgent
-from llm.base import LLMAdapter
-from models.conversacion import Conversacion
-from models.paciente import Paciente
-from repositories.conversation_repository import ConversacionRepository
-from schemas.triageResponse import TriageResponse
-from utils.errors import SessionNotFoundError
-from utils.security import InputValidationError, sanitize_text
+from app.clinical.rag_retriever import RetrievedProtocol, render_context, retrieve
+from app.clinical.triage_rules import PRIORIDAD_POR_TRIAGE, classify_by_rules, more_urgent
+from app.llm.base import LLMAdapter
+from app.models.conversacion import Conversacion
+from app.models.paciente import Paciente
+from app.repositories.conversation_repository import ConversacionRepository
+from app.schemas.triageResponse import TriageResponse
+from app.utils.errors import SessionNotFoundError
+from app.utils.security import InputValidationError, sanitize_text
 
 _VALID_LEVELS = {"I", "II", "III", "IV"}
 

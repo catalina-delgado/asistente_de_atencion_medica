@@ -1,17 +1,17 @@
 from fastapi import APIRouter, Depends, Request
 
-from api.deps import get_atencion_service, get_chat_service, get_triage_service
-from schemas.attentionRequest import AttentionRequest
-from schemas.attentionResponse import AttentionResponse
-from schemas.chatRequest import ChatRequest
-from schemas.chatResponse import ChatResponse
-from schemas.triageRequest import TriageRequest
-from schemas.triageResponse import TriageResponse
-from services.attention_service import AtencionService
-from services.chat_service import ChatService
-from services.triage_service import TriageService
-from utils.logging import audit_event
-from utils.security import mask_sensitive, truncate_for_audit
+from app.api.deps import get_atencion_service, get_chat_service, get_triage_service
+from app.schemas.attentionRequest import AttentionRequest
+from app.schemas.attentionResponse import AttentionResponse
+from app.schemas.chatRequest import ChatRequest
+from app.schemas.chatResponse import ChatResponse
+from app.schemas.triageRequest import TriageRequest
+from app.schemas.triageResponse import TriageResponse
+from app.services.attention_service import AtencionService
+from app.services.chat_service import ChatService
+from app.services.triage_service import TriageService
+from app.utils.logging import audit_event
+from app.utils.security import mask_sensitive, truncate_for_audit
 
 router = APIRouter()
 

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from pydantic import BaseModel, Field
-from models.mensaje import Mensaje
-from models.paciente import Paciente
+from app.models.mensaje import Mensaje
+from app.models.paciente import Paciente
 
 
 class IntakeReply(BaseModel):

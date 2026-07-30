@@ -1,11 +1,11 @@
 import uuid
 from datetime import datetime, timezone
 
-from models.conversacion import Conversacion
-from models.enums import RolMensaje
-from models.paciente import Paciente
-from schemas.attentionResponse import AttentionResponse
-from services.triage_service import TriageService
+from app.models.conversacion import Conversacion
+from app.models.enums import RolMensaje
+from app.models.paciente import Paciente
+from app.schemas.attentionResponse import AttentionResponse
+from app.services.triage_service import TriageService
 
 
 class AtencionService:

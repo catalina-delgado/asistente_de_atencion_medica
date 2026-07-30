@@ -5,7 +5,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from config.settings import get_settings
+from app.config.settings import get_settings
 
 _audit_logger: logging.Logger | None = None
 

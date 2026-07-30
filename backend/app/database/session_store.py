@@ -1,9 +1,9 @@
 # Memoria de conversaciones de pacientes.
 
 import time
-from models.conversacion import Conversacion
-from models.paciente import Paciente
-from config.settings import get_settings
+from app.models.conversacion import Conversacion
+from app.models.paciente import Paciente
+from app.config.settings import get_settings
 
 
 class InMemorySessionStore:

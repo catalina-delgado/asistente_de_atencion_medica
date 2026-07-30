@@ -1,8 +1,8 @@
 # controlador de la memoria de conversaciones de pacientes
 
-from database.session_store import InMemorySessionStore
-from models.conversacion import Conversacion
-from models.paciente import Paciente
+from app.database.session_store import InMemorySessionStore
+from app.models.conversacion import Conversacion
+from app.models.paciente import Paciente
 
 
 class ConversacionRepository:

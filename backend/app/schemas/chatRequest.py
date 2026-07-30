@@ -1,6 +1,6 @@
 from dataclasses import Field
 from pydantic import BaseModel
-from models.paciente import Patient
+from app.models.paciente import Patient
 
 class ChatRequest(BaseModel):
     sessionId: str | None = Field(default=None, description="Si se omite, se crea una sesión nueva.")

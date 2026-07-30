@@ -1,6 +1,6 @@
 # Informacion demografica del paciente
 
-from enums import Sexo
+from app.models.enums import Sexo
 from pydantic import BaseModel, Field
 
 

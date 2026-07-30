@@ -1,9 +1,9 @@
-from llm.base import LLMAdapter
-from asistente.backend.repositories.conversation_repository import ConversationRepository
-from models.enums import RolMensaje
-from models.paciente import Patient
-from schemas.chatResponse import ChatResponse
-from utils.security import sanitize_text
+from app.llm.base import LLMAdapter
+from app.repositories.conversation_repository import ConversationRepository
+from app.models.enums import RolMensaje
+from app.models.paciente import Patient
+from app.schemas.chatResponse import ChatResponse
+from app.utils.security import sanitize_text
 
 
 class ChatService:
