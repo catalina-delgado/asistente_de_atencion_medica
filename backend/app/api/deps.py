@@ -2,6 +2,7 @@ from app.config.settings import get_settings
 from app.database.session_store import get_session_store
 from app.llm.factory import build_llm_adapter
 from app.repositories.conversation_repository import ConversationRepository
+from app.repositories.attention_repository import AttentionRepository
 from app.services.attention_service import AtencionService
 from app.services.chat_service import ChatService
 from app.services.triage_service import TriageService
@@ -11,7 +12,7 @@ _repo = ConversationRepository(get_session_store())
 
 _chat_service = ChatService(llm=_llm, repo=_repo)
 _triage_service = TriageService(llm=_llm, repo=_repo)
-_atencion_service = AtencionService(triage_service=_triage_service)
+_atencion_service = AtencionService(triage_service=_triage_service, repository=AttentionRepository())
 
 
 def get_chat_service() -> ChatService:
