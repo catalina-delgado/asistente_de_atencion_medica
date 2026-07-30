@@ -13,7 +13,7 @@ from app.llm.prompts import (
     TRIAGE_SYSTEM_PROMPT,
     extract_json,
 )
-from asistente.backend.app.utils.errors import LLMProviderError
+from app.utils.errors import LLMProviderError
 
 
 class GeminiAdapter(LLMAdapter):

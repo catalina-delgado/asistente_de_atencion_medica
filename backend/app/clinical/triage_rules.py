@@ -17,19 +17,19 @@ como "dolor fuerte en el pecho y dificultad para respirar".
 import unicodedata
 from dataclasses import dataclass
 
-from app.models.enums import NivelTriage as TriageLevel
+from app.models.enums import NivelTriage
 
-PRIORIDAD_POR_TRIAGE: dict[TriageLevel, str] = {
+PRIORIDAD_POR_TRIAGE: dict[NivelTriage, str] = {
     "I": "Emergencia inmediata",
     "II": "Urgente",
     "III": "Prioritario",
     "IV": "No urgente",
 }
 
-_SEVERITY_RANK: dict[TriageLevel, int] = {"I": 1, "II": 2, "III": 3, "IV": 4}
+_SEVERITY_RANK: dict[NivelTriage, int] = {"I": 1, "II": 2, "III": 3, "IV": 4}
 
 
-def more_urgent(a: TriageLevel, b: TriageLevel) -> TriageLevel:
+def more_urgent(a: NivelTriage, b: NivelTriage) -> NivelTriage:
     """Devuelve el nivel más urgente entre dos clasificaciones de triage."""
     return a if _SEVERITY_RANK[a] <= _SEVERITY_RANK[b] else b
 
@@ -46,7 +46,7 @@ KeywordGroup = tuple[str, ...]
 
 @dataclass(frozen=True)
 class RedFlagRule:
-    level: TriageLevel
+    level: NivelTriage
     label: str
     groups: tuple[KeywordGroup, ...]
     especialidad: str
@@ -129,7 +129,7 @@ RED_FLAG_RULES: list[RedFlagRule] = [
 
 @dataclass
 class RuleClassification:
-    triage: TriageLevel
+    triage: NivelTriage
     banderas: list[str]
     especialidad: str
     razonamiento: str
@@ -156,7 +156,7 @@ def classify_by_rules(*texts: str) -> RuleClassification:
     if not matched:
         return DEFAULT_CLASSIFICATION
 
-    best_level: TriageLevel = min(matched, key=lambda r: _SEVERITY_RANK[r.level]).level
+    best_level: NivelTriage = min(matched, key=lambda r: _SEVERITY_RANK[r.level]).level
     matches_at_best_level = [r for r in matched if r.level == best_level]
 
     especialidad = matches_at_best_level[0].especialidad

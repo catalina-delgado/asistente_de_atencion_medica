@@ -5,7 +5,7 @@ from app.models.conversacion import Conversacion
 from app.models.paciente import Paciente
 
 
-class ConversacionRepository:
+class ConversationRepository:
     def __init__(self, store: InMemorySessionStore):
         self._store = store
 

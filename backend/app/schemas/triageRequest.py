@@ -1,6 +1,5 @@
-from dataclasses import Field
-from pydantic import BaseModel
-from app.models.paciente import Patient
+from pydantic import BaseModel, Field
+from app.models.paciente import Paciente
 
 
 class TriageRequest(BaseModel):
@@ -10,5 +9,5 @@ class TriageRequest(BaseModel):
         max_length=4000,
         description="Texto libre opcional; si se omite se usa el historial de la sesión.",
     )
-    paciente: Patient | None = None
+    paciente: Paciente | None = None
 

@@ -1,14 +1,14 @@
-import datetime
+from datetime import datetime
 from app.models.enums import NivelTriage
-from app.models.paciente import Patient
+from app.models.paciente import Paciente
 from pydantic import BaseModel
 
 
-class AtentionResponse(BaseModel):
+class AttentionResponse(BaseModel):
     atencionId: str
     sessionId: str
     fechaCreacion: datetime
-    paciente: Patient
+    paciente: Paciente
     motivoConsulta: str
     sintomasReportados: list[str]
     preguntasYRespuestas: list[dict[str, str]]

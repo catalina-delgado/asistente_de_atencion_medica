@@ -1,7 +1,7 @@
 from app.llm.base import LLMAdapter
 from app.repositories.conversation_repository import ConversationRepository
 from app.models.enums import RolMensaje
-from app.models.paciente import Patient
+from app.models.paciente import Paciente
 from app.schemas.chatResponse import ChatResponse
 from app.utils.security import sanitize_text
 
@@ -12,7 +12,7 @@ class ChatService:
         self._repo = repo
 
     # Procesa un mensaje del paciente, generando una respuesta del asistente y actualizando la conversacion
-    async def procesar_mensaje(self, *, session_id: str | None, mensaje: str, paciente: Patient | None) -> ChatResponse:
+    async def procesar_mensaje(self, *, session_id: str | None, mensaje: str, paciente: Paciente | None) -> ChatResponse:
         mensaje_limpio = sanitize_text(mensaje, field_name="mensaje")
 
         conversacion = self._repo.obtener(session_id) if session_id else None

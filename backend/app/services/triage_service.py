@@ -3,7 +3,7 @@ from app.clinical.triage_rules import PRIORIDAD_POR_TRIAGE, classify_by_rules, m
 from app.llm.base import LLMAdapter
 from app.models.conversacion import Conversacion
 from app.models.paciente import Paciente
-from app.repositories.conversation_repository import ConversacionRepository
+from app.repositories.conversation_repository import ConversationRepository
 from app.schemas.triageResponse import TriageResponse
 from app.utils.errors import SessionNotFoundError
 from app.utils.security import InputValidationError, sanitize_text
@@ -12,7 +12,7 @@ _VALID_LEVELS = {"I", "II", "III", "IV"}
 
 
 class TriageService:
-    def __init__(self, llm: LLMAdapter, repo: ConversacionRepository):
+    def __init__(self, llm: LLMAdapter, repo: ConversationRepository):
         self._llm = llm
         self._repo = repo
 

@@ -1,5 +1,4 @@
-from dataclasses import Field
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from app.models.enums import NivelTriage
 
 class TriageResponse(BaseModel):

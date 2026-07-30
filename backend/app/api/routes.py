@@ -16,6 +16,18 @@ from app.utils.security import mask_sensitive, truncate_for_audit
 router = APIRouter()
 
 
+@router.get("/", tags=["meta"])
+async def index():
+    return {
+        "name": "Medical Triage Chatbot API",
+        "status": "running",
+        "version": "1.0.0",
+        "health": "/health",
+        "docs": "/docs",
+        "openapi": "/openapi.json"
+    }
+
+
 @router.get("/health", tags=["meta"])
 async def health() -> dict:
     return {"status": "ok"}
