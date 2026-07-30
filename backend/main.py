@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 
-from api.routes import router
-from config.settings import get_settings
-from utils.errors import register_exception_handlers
-from utils.logging import configure_logging
+from app.api.routes import router
+from app.config.settings import get_settings
+from app.utils.errors import register_exception_handlers
+from app.utils.logging import configure_logging
 
 
 def create_app() -> FastAPI:
