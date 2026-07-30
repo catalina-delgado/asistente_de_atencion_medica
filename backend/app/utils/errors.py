@@ -60,15 +60,3 @@ def register_exception_handlers(app: FastAPI) -> None:
             "El asistente no pudo procesar la solicitud en este momento. Intenta nuevamente.",
             request_id,
         )
-
-    @app.exception_handler(Exception)
-    async def handle_unexpected(request: Request, exc: Exception):
-        request_id = getattr(request.state, "request_id", new_request_id())
-        logger.exception("Error no controlado [%s]", request_id)
-        audit_event("unhandled_error", request_id=request_id, detail=type(exc).__name__)
-        return _error_response(
-            status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "INTERNAL_ERROR",
-            "Ocurrió un error inesperado. El equipo técnico ha sido notificado.",
-            request_id,
-        )
