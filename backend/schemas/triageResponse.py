@@ -1,17 +1,13 @@
 from dataclasses import Field
 from pydantic import BaseModel
-from models.triage import TriageLevel
+from models.enums import NivelTriage
 
-
-class TriageResult(BaseModel):
-    triage: TriageLevel
+class TriageResponse(BaseModel):
+    sessionId: str
+    triage: NivelTriage
     prioridad: str
     especialidadSugerida: str
     resumenClinico: str
     banderasDeAlarma: list[str] = Field(default_factory=list)
     recomendacionInicial: str
     requiereAtencionInmediata: bool
-
-
-class TriageResponse(TriageResult):
-    sessionId: str

@@ -1,5 +1,5 @@
 import datetime
-from models.enums import TriageLevel
+from models.enums import NivelTriage
 from models.paciente import Patient
 from pydantic import BaseModel
 
@@ -12,7 +12,7 @@ class AtentionResponse(BaseModel):
     motivoConsulta: str
     sintomasReportados: list[str]
     preguntasYRespuestas: list[dict[str, str]]
-    triage: TriageLevel
+    triage: NivelTriage
     prioridad: str
     especialidadSugerida: str
     resumenClinico: str
