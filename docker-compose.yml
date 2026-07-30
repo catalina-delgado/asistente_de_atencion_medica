@@ -1,24 +1,21 @@
 services:
-
   backend:
-    build: ./backend
-    ports:
-      - "8080:8000"
+    build:
+      context: ./backend
+    container_name: emermedica-backend
     env_file:
-      - .env
-    depends_on:
-      - postgres
-
-  postgres:
-    image: postgres:16
-    restart: always
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: triage
+      - path: ./backend/.env
+        required: false
     ports:
-      - "5432:5432"
+      - "8000:8000"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - backend_logs:/app/logs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
 volumes:
-    postgres_data:
+  backend_logs:
