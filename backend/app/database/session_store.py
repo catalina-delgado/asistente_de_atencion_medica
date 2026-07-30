@@ -1,6 +1,6 @@
 # Memoria de conversaciones de pacientes.
 
-import time
+from datetime import datetime
 from app.models.conversacion import Conversacion
 from app.models.paciente import Paciente
 from app.config.settings import get_settings
@@ -12,8 +12,8 @@ class InMemorySessionStore:
         self._ttl_seconds = ttl_minutes * 60
 
     def _purge_expired(self) -> None:
-        now = time.time()
-        expired = [sid for sid, c in self._data.items() if now - c.actualizada_en > self._ttl_seconds]
+        now = datetime.utcnow()
+        expired = [sid for sid, c in self._data.items() if (now - c.actualizada_en).total_seconds() > self._ttl_seconds]
         for sid in expired:
             del self._data[sid]
 
