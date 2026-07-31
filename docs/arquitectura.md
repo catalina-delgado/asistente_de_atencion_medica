@@ -7,8 +7,6 @@ El flujo general del sistema inicia cuando el usuario interactúa con la interfa
 <img src="imagenes/arquitectura.png" alt="Arquitectura del asistente de atención médica" width="700">
 
 
----
-
 # Flujo de la arquitectura
 
 La interacción entre los componentes sigue el siguiente flujo:
@@ -21,7 +19,6 @@ La interacción entre los componentes sigue el siguiente flujo:
 6. Los datos generados o consultados se almacenan mediante los repositorios.
 7. Finalmente, la respuesta es devuelta al usuario.
 
----
 
 # Componentes de la arquitectura
 
@@ -29,7 +26,6 @@ La interacción entre los componentes sigue el siguiente flujo:
 
 El frontend constituye la capa de presentación del sistema. Está desarrollado en React y es responsable de gestionar la interacción con el usuario, mostrando la conversación, enviando los mensajes a la API y presentando el resultado del triaje y de la atención médica.
 
----
 
 ## API
 
@@ -52,7 +48,6 @@ Los principales endpoints son:
 | `POST /triage` | Clasificar el nivel de triaje |
 | `POST /atencion` | Generar la atención médica |
 
----
 
 ## Servicios
 
@@ -72,7 +67,6 @@ Analiza los síntomas identificados, consulta las reglas clínicas y el modelo d
 
 Genera el documento final de atención médica utilizando el resultado del proceso de triaje.
 
----
 
 ## Motor clínico
 
@@ -86,7 +80,6 @@ Entre sus responsabilidades se encuentran:
 
 Este componente puede producir una clasificación clínica incluso sin utilizar un modelo de lenguaje. Ver [`logica_clinica.md`](logica_clinica.md) para el detalle de cómo el motor de reglas y el RAG se combinan con el LLM dentro de `TriageService`.
 
----
 
 ## Modelo de lenguaje (LLM)
 
@@ -101,8 +94,6 @@ Sus principales funciones son:
 - apoyar el proceso de clasificación cuando es necesario.
 
 La arquitectura desacopla esta funcionalidad mediante adaptadores, permitiendo utilizar diferentes proveedores de modelos sin modificar la lógica del sistema. El nivel de triaje final nunca lo decide el LLM por sí solo: siempre se combina con el motor de reglas del módulo Clinical, que tiene la última palabra sobre la urgencia mínima — ver [`logica_clinica.md`](logica_clinica.md).
-
----
 
 ## Repositorios
 
@@ -132,7 +123,6 @@ El sistema interactúa con dos recursos externos:
 - los protocolos clínicos almacenados localmente, utilizados durante el proceso de recuperación de información;
 - la API de Gemini, empleada cuando el proveedor de lenguaje configurado corresponde a dicho servicio.
 
----
 
 ## Componentes transversales
 
@@ -145,11 +135,9 @@ Entre ellos se encuentran:
 - registro de eventos (logging);
 - manejo uniforme de excepciones.
 
----
-
 ## Consideraciones de diseño
 
-Esta arquitectura fue diseñada siguiendo el principio de separación de responsabilidades (*Separation of Concerns*), donde cada capa tiene una función específica y una única responsabilidad. Gracias a este enfoque:
+Esta arquitectura fue diseñada siguiendo el principio de separación de responsabilidades, donde cada capa tiene una función específica y una única responsabilidad. Gracias a este enfoque:
 
 - La lógica de negocio permanece independiente de la interfaz de usuario.
 - El conocimiento clínico está desacoplado del modelo de inteligencia artificial.
