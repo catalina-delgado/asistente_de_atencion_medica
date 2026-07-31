@@ -1,9 +1,5 @@
 # API
 
-Referencia de endpoints. La documentación interactiva (Swagger) vive en `/docs` (autogenerada por FastAPI) y siempre refleja el estado real del código; esta página es un resumen de referencia rápida.
-
-Colección de Postman lista para importar: [`../postman/Emermedica-API.postman_collection.json`](../postman/Emermedica-API.postman_collection.json).
-
 ## Autenticación
 
 `POST /chat`, `POST /triage` y `POST /atencion` requieren un header:
@@ -115,7 +111,7 @@ Clasifica el nivel de triage de la sesión.
 }
 ```
 
-`triage` es uno de `I` (emergencia inmediata) a `IV` (no urgente). El nivel resulta de tomar **el más urgente** entre la sugerencia del LLM y el motor de reglas de banderas de alarma — ver [`arquitectura.md`](arquitectura.md#clinical-appclinical).
+`triage` es uno de `I` (emergencia inmediata) a `IV` (no urgente). El nivel resulta de tomar **el más urgente** entre la sugerencia del LLM y el motor de reglas de banderas de alarma — ver la sección "Clinical y LLM" en [`arquitectura.md`](arquitectura.md).
 
 ### `POST /atencion`
 
