@@ -11,7 +11,18 @@ logger = logging.getLogger("app")
 
 
 class LLMProviderError(Exception):
-    """Error al comunicarse con el proveedor de LLM (timeout, 4xx/5xx, etc.)."""
+    """Error al comunicarse con el proveedor de LLM (timeout, 4xx/5xx, etc.)"""
+
+    def __init__(
+        self,
+        detail: str,
+        *,
+        http_status: int = 502,
+        user_message: str = "El asistente no pudo procesar la solicitud en este momento. Intenta nuevamente.",
+    ):
+        super().__init__(detail)
+        self.http_status = http_status
+        self.user_message = user_message
 
 
 class SessionNotFoundError(Exception):
@@ -66,9 +77,4 @@ def register_exception_handlers(app: FastAPI) -> None:
         request_id = getattr(request.state, "request_id", new_request_id())
         logger.error("Fallo del proveedor LLM [%s]: %s", request_id, exc)
         audit_event("llm_provider_error", request_id=request_id, detail=str(exc))
-        return _error_response(
-            status.HTTP_502_BAD_GATEWAY,
-            "LLM_PROVIDER_ERROR",
-            "El asistente no pudo procesar la solicitud en este momento. Intenta nuevamente.",
-            request_id,
-        )
+        return _error_response(exc.http_status, "LLM_PROVIDER_ERROR", exc.user_message, request_id)

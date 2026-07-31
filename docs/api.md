@@ -36,7 +36,11 @@ Todas las respuestas de error siguen la misma forma:
 | `INVALID_REQUEST`          | 422    | El body no cumple el schema esperado                        |
 | `UNAUTHORIZED`             | 401    | Token bearer ausente/inválido, o servidor sin token configurado |
 | `SESSION_NOT_FOUND`        | 404    | `sessionId` no existe o expiró (`SESSION_TTL_MINUTES`)      |
-| `LLM_PROVIDER_ERROR`       | 502    | Falla el proveedor LLM (timeout, error de red, 4xx/5xx)     |
+| `LLM_PROVIDER_ERROR`       | 503    | Gemini sobrecargado por alta demanda (`UNAVAILABLE`) — el `message` incluye el modelo configurado |
+| `LLM_PROVIDER_ERROR`       | 429    | Se agotó la cuota de la API de Gemini (`RESOURCE_EXHAUSTED`) |
+| `LLM_PROVIDER_ERROR`       | 502    | El modelo configurado no existe (`NOT_FOUND`, revisar `GEMINI_MODEL`), timeout, error de red, u otro error del proveedor |
+
+En los tres casos el `message` de la respuesta ya viene redactado para mostrarse directo al usuario (ver `GeminiAdapter._traducir_error()` en `app/llm/gemini.py`).
 
 ## Endpoints
 

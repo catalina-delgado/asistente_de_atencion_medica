@@ -39,8 +39,8 @@ function App() {
         }
         return nuevos
       })
-    } catch {
-      setError('No se pudo contactar al asistente. Verifica que el backend esté corriendo.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'No se pudo contactar al asistente.')
     } finally {
       setCargando(false)
     }

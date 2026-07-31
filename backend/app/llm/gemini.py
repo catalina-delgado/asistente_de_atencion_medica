@@ -42,9 +42,48 @@ class GeminiAdapter(LLMAdapter):
             )
             return response.text or ""
         except APIError as exc:
-            raise LLMProviderError(f"Gemini: error de API ({exc})") from exc
+            raise self._traducir_error(exc) from exc
         except (IndexError, AttributeError) as exc:
             raise LLMProviderError(f"Gemini: respuesta con formato inesperado ({exc})") from exc
+
+    def _traducir_error(self, exc: APIError) -> LLMProviderError:
+        """Traduce un error real de la API de Gemini (con su código y status,
+        ver google.genai.errors.APIError) a un LLMProviderError con el HTTP
+        status y el mensaje de usuario adecuados, en vez de devolver siempre
+        el mismo 502 genérico sin importar la causa real."""
+        detalle = f"Gemini: error de API ({exc})"
+
+        if exc.code == 503 or exc.status == "UNAVAILABLE":
+            return LLMProviderError(
+                detalle,
+                http_status=503,
+                user_message=(
+                    f"El modelo de IA ({self._model}) no está disponible en este momento "
+                    "por alta demanda del proveedor. Intenta de nuevo en unos segundos."
+                ),
+            )
+
+        if exc.code == 404 or exc.status == "NOT_FOUND":
+            return LLMProviderError(
+                detalle,
+                http_status=502,
+                user_message=(
+                    f"El modelo configurado ({self._model}) no existe o no está disponible "
+                    "para esta API key. Revisa la variable GEMINI_MODEL."
+                ),
+            )
+
+        if exc.code == 429 or exc.status == "RESOURCE_EXHAUSTED":
+            return LLMProviderError(
+                detalle,
+                http_status=429,
+                user_message=(
+                    "Se alcanzó el límite de solicitudes al proveedor de IA "
+                    f"({self._model}). Intenta de nuevo más tarde."
+                ),
+            )
+
+        return LLMProviderError(detalle)
 
     async def responder_intake(self, *, historial: list[Mensaje], sintomas_acumulados: str) -> IntakeReply:
         messages = [
