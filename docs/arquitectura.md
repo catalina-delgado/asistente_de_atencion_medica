@@ -50,7 +50,7 @@ Los principales endpoints son:
 |----------|-----------------|
 | `POST /chat` | Gestionar la conversación con el paciente |
 | `POST /triage` | Clasificar el nivel de triaje |
-| `POST /attention` | Generar la atención médica |
+| `POST /atencion` | Generar la atención médica |
 
 ---
 
@@ -80,11 +80,11 @@ El módulo **Clinical** implementa el conocimiento clínico del sistema mediante
 
 Entre sus responsabilidades se encuentran:
 
-- identificar banderas de alarma;
-- consultar protocolos clínicos;
+- identificar banderas de alarma mediante un motor de reglas por palabras clave (`triage_rules.py`);
+- recuperar los protocolos clínicos más relevantes para el caso mediante un mecanismo de RAG basado en TF-IDF y similitud de coseno (`rag_retriever.py`), sin depender de un servicio externo;
 - clasificar casos mediante reglas médicas.
 
-Este componente puede producir una clasificación clínica incluso sin utilizar un modelo de lenguaje.
+Este componente puede producir una clasificación clínica incluso sin utilizar un modelo de lenguaje. Ver [`logica_clinica.md`](logica_clinica.md) para el detalle de cómo el motor de reglas y el RAG se combinan con el LLM dentro de `TriageService`.
 
 ---
 
@@ -100,7 +100,7 @@ Sus principales funciones son:
 - elaborar resúmenes clínicos;
 - apoyar el proceso de clasificación cuando es necesario.
 
-La arquitectura desacopla esta funcionalidad mediante adaptadores, permitiendo utilizar diferentes proveedores de modelos sin modificar la lógica del sistema.
+La arquitectura desacopla esta funcionalidad mediante adaptadores, permitiendo utilizar diferentes proveedores de modelos sin modificar la lógica del sistema. El nivel de triaje final nunca lo decide el LLM por sí solo: siempre se combina con el motor de reglas del módulo Clinical, que tiene la última palabra sobre la urgencia mínima — ver [`logica_clinica.md`](logica_clinica.md).
 
 ---
 
