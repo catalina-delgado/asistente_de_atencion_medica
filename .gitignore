@@ -8,6 +8,9 @@ venv/
 .coverage
 htmlcov/
 
+# environment
+.env
+
 # Node
 node_modules/
 frontend/dist/
