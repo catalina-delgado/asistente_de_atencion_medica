@@ -1,0 +1,140 @@
+{
+  "info": {
+    "name": "Emermédica - Asistente de Atención Médica",
+    "description": "Colección de la API del backend (FastAPI). Usa la variable {{base_url}} (por defecto http://localhost:8010 al correr con docker compose). Las rutas de la carpeta 'Asistente' requieren un token bearer: pega el valor de API_TOKEN de backend/.env en la variable de colección {{api_token}}.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{api_token}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8010"
+    },
+    {
+      "key": "api_token",
+      "value": "",
+      "description": "Copiar de API_TOKEN en backend/.env"
+    },
+    {
+      "key": "sessionId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Meta",
+      "auth": {
+        "type": "noauth"
+      },
+      "item": [
+        {
+          "name": "Root",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            }
+          }
+        },
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Asistente",
+      "item": [
+        {
+          "name": "Chat",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const body = pm.response.json();",
+                  "    if (body.sessionId) {",
+                  "        pm.collectionVariables.set('sessionId', body.sessionId);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"{{sessionId}}\",\n  \"mensaje\": \"Tengo fiebre y dolor de cabeza desde ayer\",\n  \"paciente\": {\n    \"edad\": 34,\n    \"sexo\": \"F\",\n    \"nombre\": \"Paciente de prueba\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/chat",
+              "host": ["{{base_url}}"],
+              "path": ["chat"]
+            },
+            "description": "sessionId puede omitirse (o dejarse vacío) en el primer turno para crear una sesión nueva; la respuesta la guarda automáticamente en {{sessionId}} para los siguientes turnos."
+          }
+        },
+        {
+          "name": "Triage",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"{{sessionId}}\",\n  \"sintomas\": \"Fiebre de 39C, dolor de cabeza intenso, sin dificultad respiratoria\",\n  \"paciente\": {\n    \"edad\": 34,\n    \"sexo\": \"F\",\n    \"nombre\": \"Paciente de prueba\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/triage",
+              "host": ["{{base_url}}"],
+              "path": ["triage"]
+            },
+            "description": "sintomas es opcional: si se omite, se usa el historial de la sesión indicada en sessionId."
+          }
+        },
+        {
+          "name": "Atención",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"{{sessionId}}\",\n  \"sintomas\": \"Fiebre de 39C, dolor de cabeza intenso, sin dificultad respiratoria\",\n  \"paciente\": {\n    \"edad\": 34,\n    \"sexo\": \"F\",\n    \"nombre\": \"Paciente de prueba\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/atencion",
+              "host": ["{{base_url}}"],
+              "path": ["atencion"]
+            },
+            "description": "Genera el documento de atención (incluye triage, resumen clínico y recomendaciones) a partir de la sesión."
+          }
+        }
+      ]
+    }
+  ]
+}
