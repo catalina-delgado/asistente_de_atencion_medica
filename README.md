@@ -4,6 +4,7 @@ Asistente de IA para triage y creación de atención médica. No emite diagnóst
 
 - **Backend**: FastAPI (Python)
 - **Frontend**: React + Vite + TypeScript, servido con nginx
+- **LLM**: Gemini (gemini-3.6-flash/gemini-3.5-flash)
 
 ## Antes de empezar
 
