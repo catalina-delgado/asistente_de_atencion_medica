@@ -18,6 +18,10 @@ class SessionNotFoundError(Exception):
     """La sesión de conversación referenciada no existe o expiró."""
 
 
+class UnauthorizedError(Exception):
+    """El token bearer enviado es inválido, ausente o el servidor no tiene uno configurado."""
+
+
 def _error_response(status_code: int, code: str, message: str, request_id: str) -> JSONResponse:
     return JSONResponse(
         status_code=status_code,
@@ -48,6 +52,14 @@ def register_exception_handlers(app: FastAPI) -> None:
         request_id = getattr(request.state, "request_id", new_request_id())
         audit_event("session_not_found", request_id=request_id, detail=str(exc))
         return _error_response(status.HTTP_404_NOT_FOUND, "SESSION_NOT_FOUND", str(exc), request_id)
+
+    @app.exception_handler(UnauthorizedError)
+    async def handle_unauthorized(request: Request, exc: UnauthorizedError):
+        request_id = getattr(request.state, "request_id", new_request_id())
+        audit_event("unauthorized_request", request_id=request_id, detail=str(exc))
+        response = _error_response(status.HTTP_401_UNAUTHORIZED, "UNAUTHORIZED", str(exc), request_id)
+        response.headers["WWW-Authenticate"] = "Bearer"
+        return response
 
     @app.exception_handler(LLMProviderError)
     async def handle_llm_error(request: Request, exc: LLMProviderError):

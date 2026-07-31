@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, Request
 
+from app.api.auth import require_bearer_token
 from app.api.deps import get_atencion_service, get_chat_service, get_triage_service
 from app.schemas.attentionRequest import AttentionRequest
 from app.schemas.attentionResponse import AttentionResponse
@@ -33,7 +34,12 @@ async def health() -> dict:
     return {"status": "ok"}
 
 
-@router.post("/chat", response_model=ChatResponse, tags=["asistente"])
+@router.post(
+    "/chat",
+    response_model=ChatResponse,
+    tags=["asistente"],
+    dependencies=[Depends(require_bearer_token)],
+)
 async def chat(
     payload: ChatRequest,
     request: Request,
@@ -52,7 +58,12 @@ async def chat(
     return resultado
 
 
-@router.post("/triage", response_model=TriageResponse, tags=["asistente"])
+@router.post(
+    "/triage",
+    response_model=TriageResponse,
+    tags=["asistente"],
+    dependencies=[Depends(require_bearer_token)],
+)
 async def triage(
     payload: TriageRequest,
     request: Request,
@@ -72,7 +83,12 @@ async def triage(
     return resultado
 
 
-@router.post("/atencion", response_model=AttentionResponse, tags=["asistente"])
+@router.post(
+    "/atencion",
+    response_model=AttentionResponse,
+    tags=["asistente"],
+    dependencies=[Depends(require_bearer_token)],
+)
 async def atencion(
     payload: AttentionRequest,
     request: Request,

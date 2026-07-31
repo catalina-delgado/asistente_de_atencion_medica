@@ -26,6 +26,11 @@ class Settings(BaseSettings):
 
     session_ttl_minutes: int = 60
 
+    # Token bearer requerido en el header Authorization para consumir /chat,
+    # /triage y /atencion. Sin él configurado, el servidor rechaza esas
+    # rutas (fail closed) en vez de dejarlas abiertas por descuido.
+    api_token: str | None = None
+
     # Ruta relativa al directorio desde donde se ejecuta el proceso (por
     # convención, siempre "backend/", que es donde vive requirements.txt/.env).
     audit_log_path: str = "logs/audit.log"
