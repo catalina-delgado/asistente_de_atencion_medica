@@ -1,4 +1,4 @@
-# Asistente de Atención Médica (Emermédica)
+# Asistente de Atención Médica
 
 Asistente de IA para triage y creación de atención médica. No emite diagnósticos médicos; actúa como auxiliar de enfermería digital.
 
