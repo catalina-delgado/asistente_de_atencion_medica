@@ -48,6 +48,16 @@ npm run dev
 
 Frontend en http://localhost:5173.
 
+## Pruebas
+
+```bash
+cd backend
+pip install -r requirements.txt
+pytest
+```
+
+Cada corrida regenera automáticamente el informe QA en `docs/qa/informe_triage.html` (vía `pytest-html`, configurado en `backend/pytest.ini`) — ábrelo en el navegador.
+
 ## Documentación
 
 - [`docs/arquitectura.md`](docs/arquitectura.md) — arquitectura del backend
@@ -55,4 +65,5 @@ Frontend en http://localhost:5173.
 - [`docs/instalacion.md`](docs/instalacion.md) — entornos y variables
 - [`docs/api.md`](docs/api.md) — referencia de endpoints
 - [`docs/decisiones_tecnicas.md`](docs/decisiones_tecnicas.md) — decisiones de diseño y su porqué
+- [`docs/qa/informe_triage.html`](docs/qa/informe_triage.html) — informe QA (pytest-html) de clasificación de triage
 - [`postman/Emermedica-API.postman_collection.json`](postman/Emermedica-API.postman_collection.json) — colección de Postman
