@@ -1,63 +1,12 @@
 {
   "info": {
-    "name": "Emermédica - Asistente de Atención Médica",
+    "_postman_id": "9af782d5-ebcc-4826-829f-2147fc1bf2cc",
+    "name": "Emermedica - Asistente",
     "description": "Colección de la API del backend (FastAPI). Usa la variable {{base_url}} (por defecto http://localhost:8010 al correr con docker compose). Las rutas de la carpeta 'Asistente' requieren un token bearer: pega el valor de API_TOKEN de backend/.env en la variable de colección {{api_token}}.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38826169"
   },
-  "auth": {
-    "type": "bearer",
-    "bearer": [
-      { "key": "token", "value": "{{api_token}}", "type": "string" }
-    ]
-  },
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:8010"
-    },
-    {
-      "key": "api_token",
-      "value": "",
-      "description": "Copiar de API_TOKEN en backend/.env"
-    },
-    {
-      "key": "sessionId",
-      "value": ""
-    }
-  ],
   "item": [
-    {
-      "name": "Meta",
-      "auth": {
-        "type": "noauth"
-      },
-      "item": [
-        {
-          "name": "Root",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/",
-              "host": ["{{base_url}}"],
-              "path": [""]
-            }
-          }
-        },
-        {
-          "name": "Health",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/health",
-              "host": ["{{base_url}}"],
-              "path": ["health"]
-            }
-          }
-        }
-      ]
-    },
     {
       "name": "Asistente",
       "item": [
@@ -82,7 +31,10 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -90,18 +42,26 @@
             },
             "url": {
               "raw": "{{base_url}}/chat",
-              "host": ["{{base_url}}"],
-              "path": ["chat"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "chat"
+              ]
             },
             "description": "sessionId puede omitirse (o dejarse vacío) en el primer turno para crear una sesión nueva; la respuesta la guarda automáticamente en {{sessionId}} para los siguientes turnos."
-          }
+          },
+          "response": []
         },
         {
           "name": "Triage",
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -109,18 +69,26 @@
             },
             "url": {
               "raw": "{{base_url}}/triage",
-              "host": ["{{base_url}}"],
-              "path": ["triage"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "triage"
+              ]
             },
             "description": "sintomas es opcional: si se omite, se usa el historial de la sesión indicada en sessionId."
-          }
+          },
+          "response": []
         },
         {
           "name": "Atención",
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -128,13 +96,77 @@
             },
             "url": {
               "raw": "{{base_url}}/atencion",
-              "host": ["{{base_url}}"],
-              "path": ["atencion"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "atencion"
+              ]
             },
             "description": "Genera el documento de atención (incluye triage, resumen clínico y recomendaciones) a partir de la sesión."
-          }
+          },
+          "response": []
+        },
+        {
+          "name": "Root",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
         }
       ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{api_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8010"
+    },
+    {
+      "key": "api_token",
+      "value": "",
+      "description": "Copiar de API_TOKEN en backend/.env"
+    },
+    {
+      "key": "sessionId",
+      "value": ""
     }
   ]
 }
