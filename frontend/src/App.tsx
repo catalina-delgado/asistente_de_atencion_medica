@@ -29,7 +29,16 @@ function App() {
     try {
       const respuesta = await enviarMensaje(texto, sessionId)
       setSessionId(respuesta.sessionId)
-      setMensajes((prev) => [...prev, { autor: 'asistente', texto: respuesta.respuesta }])
+      setMensajes((prev) => {
+        const nuevos: Turno[] = [...prev, { autor: 'asistente', texto: respuesta.respuesta }]
+        if (respuesta.preguntasSeguimiento.length > 0) {
+          nuevos.push({
+            autor: 'asistente',
+            texto: respuesta.preguntasSeguimiento.map((p, i) => `${i + 1}. ${p}`).join('\n'),
+          })
+        }
+        return nuevos
+      })
     } catch {
       setError('No se pudo contactar al asistente. Verifica que el backend esté corriendo.')
     } finally {
