@@ -59,18 +59,38 @@ class GeminiAdapter(LLMAdapter):
             raise LLMProviderError(f"Gemini: no se pudo interpretar la respuesta de intake ({exc})") from exc
 
     async def generar_resumen_clinico(
-        self, *, sintomas_acumulados: str, paciente: Paciente | None, contexto_protocolos: str
+        self,
+        *,
+        sintomas_acumulados: str,
+        paciente: Paciente | None,
+        contexto_protocolos: str,
+        banderas_detectadas: list[str],
     ) -> str:
         datos_paciente = {"edad": paciente.edad, "sexo": paciente.sexo} if paciente else "no proporcionados"
+        banderas_texto = ", ".join(banderas_detectadas) if banderas_detectadas else "ninguna detectada"
         contenido = (
             f"Síntomas reportados: {sintomas_acumulados}\n"
             f"Datos del paciente: {datos_paciente}\n"
+            f"Banderas de alarma ya detectadas por el motor de reglas: {banderas_texto}\n"
             f"Contexto de protocolos relevante:\n{contexto_protocolos or 'N/A'}"
         )
         return (await self._complete(system=RESUMEN_SYSTEM_PROMPT, messages=[{"role": "user", "content": contenido}])).strip()
 
-    async def sugerir_triage(self, *, sintomas_acumulados: str, contexto_protocolos: str) -> TriageSuggestion:
-        contenido = f"Síntomas: {sintomas_acumulados}\nProtocolos relevantes:\n{contexto_protocolos or 'N/A'}"
+    async def sugerir_triage(
+        self,
+        *,
+        sintomas_acumulados: str,
+        contexto_protocolos: str,
+        banderas_detectadas: list[str],
+        razonamiento_reglas: str,
+    ) -> TriageSuggestion:
+        banderas_texto = ", ".join(banderas_detectadas) if banderas_detectadas else "ninguna"
+        contenido = (
+            f"Síntomas: {sintomas_acumulados}\n"
+            f"Protocolos relevantes:\n{contexto_protocolos or 'N/A'}\n"
+            f"Banderas de alarma ya detectadas por el motor de reglas: {banderas_texto}\n"
+            f"Razonamiento del motor de reglas: {razonamiento_reglas}"
+        )
         raw = await self._complete(system=TRIAGE_SYSTEM_PROMPT, messages=[{"role": "user", "content": contenido}])
         try:
             return TriageSuggestion(**extract_json(raw))

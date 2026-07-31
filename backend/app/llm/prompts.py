@@ -25,8 +25,11 @@ RESUMEN_SYSTEM_PROMPT = (
     DISCLAIMER_SISTEMA
     + "\n\nTarea: redacta un resumen clínico breve (2-4 frases), en tercera persona, "
     "estilo nota de enfermería, a partir de los síntomas reportados y el contexto de "
-    "protocolos proporcionado. No incluyas diagnósticos ni tratamientos. "
-    "Responde ÚNICAMENTE con el texto del resumen, sin JSON ni comillas."
+    "protocolos proporcionado. Si se te indican banderas de alarma ya detectadas por "
+    "un motor de reglas determinista, tu resumen debe reflejarlas explícitamente: "
+    "nunca redactes un resumen que suene más leve que esas banderas. No incluyas "
+    "diagnósticos ni tratamientos. Responde ÚNICAMENTE con el texto del resumen, "
+    "sin JSON ni comillas."
 )
 
 TRIAGE_SYSTEM_PROMPT = (
@@ -35,7 +38,10 @@ TRIAGE_SYSTEM_PROMPT = (
     "proporcionado, sugiere el nivel de triage más adecuado según esta escala:\n"
     "I = Emergencia inmediata, II = Urgente, III = Prioritario, IV = No urgente.\n"
     "Ante cualquier duda entre dos niveles, elige el más urgente (nunca subestimes "
-    "un caso). Responde ÚNICAMENTE con un JSON: "
+    "un caso). Si se te indican banderas de alarma ya detectadas por un motor de "
+    "reglas determinista, trátalas como hallazgos confirmados: tu sugerencia nunca "
+    "debe ignorarlas ni proponer un nivel menos urgente que el que implican. "
+    "Responde ÚNICAMENTE con un JSON: "
     '{"triage": "I|II|III|IV", "justificacion": "breve explicacion clinica"}'
 )
 

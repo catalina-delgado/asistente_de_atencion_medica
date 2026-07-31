@@ -54,10 +54,14 @@ class TriageService:
             sintomas_acumulados=sintomas_acumulados,
             paciente=conversacion.paciente,
             contexto_protocolos=contexto_protocolos,
+            banderas_detectadas=regla.banderas,
         )
 
         sugerencia = await self._llm.sugerir_triage(
-            sintomas_acumulados=sintomas_acumulados, contexto_protocolos=contexto_protocolos
+            sintomas_acumulados=sintomas_acumulados,
+            contexto_protocolos=contexto_protocolos,
+            banderas_detectadas=regla.banderas,
+            razonamiento_reglas=regla.razonamiento,
         )
         nivel_llm = sugerencia.triage if sugerencia.triage in _VALID_LEVELS else regla.triage
         nivel_final = more_urgent(nivel_llm, regla.triage)

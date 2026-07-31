@@ -3,8 +3,6 @@ from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-LLMProvider = Literal["gemini", "mock"]
-
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
@@ -14,11 +12,9 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     cors_origins: str = "http://localhost:5173"
 
-    # Proveedor de LLM activo. Si no hay API key configurada para el
-    # proveedor elegido, la app cae automáticamente a "mock" (motor de
-    # reglas) para poder seguir funcionando en desarrollo/pruebas.
-    llm_provider: LLMProvider = "mock"
-
+    # Gemini es el único proveedor de LLM soportado. Sin GEMINI_API_KEY
+    # configurada, app/llm/factory.py falla al arrancar (fail-fast) en vez
+    # de degradar en silencio a un motor sin LLM real.
     gemini_api_key: str | None = None
     gemini_model: str = "gemini-1.5-flash"
 
@@ -38,15 +34,6 @@ class Settings(BaseSettings):
     @property
     def cors_origin_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
-
-    def active_provider(self) -> LLMProvider:
-        """Determina el proveedor realmente utilizable según las keys presentes."""
-        key_by_provider = {
-            "gemini": self.gemini_api_key,
-        }
-        if self.llm_provider != "mock" and not key_by_provider.get(self.llm_provider):
-            return "mock"
-        return self.llm_provider
 
 
 @lru_cache

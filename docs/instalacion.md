@@ -53,8 +53,7 @@ Pon el **mismo valor** en:
 | `APP_ENV`              | `development` \| `production` \| `test`                                        |
 | `LOG_LEVEL`            | Nivel de logging (`INFO`, `DEBUG`, ...)                                        |
 | `CORS_ORIGINS`         | Orígenes permitidos, separados por coma (debe incluir la URL del frontend)     |
-| `LLM_PROVIDER`         | `mock` (reglas locales, sin costo/red) o `gemini` (requiere `GEMINI_API_KEY`)  |
-| `GEMINI_API_KEY`       | API key de Gemini. Si falta, la app cae automáticamente a `mock`.              |
+| `GEMINI_API_KEY`       | **Requerida.** Sin ella, el backend falla al arrancar (no hay proveedor de respaldo). |
 | `GEMINI_MODEL`         | Modelo de Gemini a usar                                                        |
 | `SESSION_TTL_MINUTES`  | Minutos de inactividad antes de expirar una sesión de conversación             |
 | `AUDIT_LOG_PATH`       | Ruta del log de auditoría dentro del contenedor                                |

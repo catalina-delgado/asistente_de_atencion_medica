@@ -38,19 +38,31 @@ class LLMAdapter(ABC):
         sintomas_acumulados: str,
         paciente: Paciente | None,
         contexto_protocolos: str,
+        banderas_detectadas: list[str],
     ) -> str:
         """Genera un resumen clínico breve en tercera persona, estilo nota
-        de enfermería, a partir de los síntomas reportados."""
+        de enfermería, a partir de los síntomas reportados. `banderas_detectadas`
+        viene del motor de reglas (`app/clinical/triage_rules.py`) y se pasa como
+        contexto para que el resumen no quede inconsistente con lo que ese motor
+        ya encontró."""
 
     @abstractmethod
     async def sugerir_triage(
-        self, *, sintomas_acumulados: str, contexto_protocolos: str
+        self,
+        *,
+        sintomas_acumulados: str,
+        contexto_protocolos: str,
+        banderas_detectadas: list[str],
+        razonamiento_reglas: str,
     ) -> TriageSuggestion:
         """Sugiere un nivel de triage (I-IV) con su justificación. Esta sugerencia
         NUNCA se usa sola: el servicio de triage siempre la combina con el motor de
         reglas de banderas de alarma (`app/clinical/triage_rules.py`) tomando el
         nivel más urgente entre ambos, de modo que el LLM solo puede escalar la
-        prioridad, nunca reducirla por debajo de lo que indican las reglas."""
+        prioridad, nunca reducirla por debajo de lo que indican las reglas.
+        `banderas_detectadas` y `razonamiento_reglas` son la salida de ese mismo
+        motor, pasada como contexto adicional para que la sugerencia del LLM sea
+        consistente con lo que las reglas ya encontraron."""
 
     @abstractmethod
     async def generar_recomendaciones(

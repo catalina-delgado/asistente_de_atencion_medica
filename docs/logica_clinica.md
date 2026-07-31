@@ -72,7 +72,9 @@ El modelo de lenguaje recibe como entrada:
 
 - los síntomas del paciente;
 - el contexto recuperado por el módulo RAG;
-- el nivel de triaje determinado por el sistema.
+- las banderas de alarma y el razonamiento ya determinados por el motor de reglas.
+
+Esto último es intencional: sin esa información, el modelo podía generar un resumen o una justificación que sonaran menos urgentes que el nivel que el sistema termina asignando igualmente por reglas. Al dársela como contexto, el texto generado queda alineado con la clasificación final.
 
 Con esta información genera:
 
@@ -80,7 +82,7 @@ Con esta información genera:
 - recomendaciones para el personal asistencial;
 - una sugerencia adicional de clasificación.
 
-Dependiendo de la configuración del sistema, el modelo puede corresponder a un proveedor externo o a una implementación simulada utilizada durante el desarrollo y las pruebas.
+El modelo de lenguaje utilizado es un proveedor externo (Gemini); el sistema requiere su configuración para funcionar y no cuenta con una implementación simulada de respaldo.
 
 ---
 

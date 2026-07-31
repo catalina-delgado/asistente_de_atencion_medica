@@ -6,11 +6,19 @@
 
 **Por qué:** es un asistente clínico; un falso negativo (subestimar urgencia) es mucho más costoso que un falso positivo. Las reglas actúan como red de seguridad determinista sobre un componente probabilístico (el LLM).
 
-## Proveedor de LLM con fallback automático a `mock`
+## LLM: solo Gemini, sin mock, falla rápido sin API key
 
-`Settings.active_provider()` (`app/config/settings.py`) hace que si `LLM_PROVIDER=gemini` pero no hay `GEMINI_API_KEY` configurada, la app use `mock` automáticamente en vez de fallar.
+`app/llm/mock.py` existió como proveedor de respaldo (sin red, sin costo) y se eliminó. `build_llm_adapter()` (`app/llm/factory.py`) ahora requiere `GEMINI_API_KEY`; si falta, lanza `RuntimeError` al arrancar en vez de degradar en silencio.
 
-**Por qué:** permite levantar el proyecto sin depender de credenciales externas. 
+**Por qué:** el fallback automático a mock era silencioso — un despliegue mal configurado podía terminar sirviendo respuestas de plantilla sin que nadie se enterara, algo grave en un asistente clínico. Fail-fast hace el problema visible de inmediato en vez de descubrirlo por la calidad de las respuestas.
+
+**Implicación:** el proyecto ya no puede correr sin una `GEMINI_API_KEY` válida — ni local, ni en CI. El motor de reglas (`triage_rules.py`) sigue siendo independiente del LLM y se sigue usando siempre como red de seguridad.
+
+## El LLM recibe las banderas de alarma del motor de reglas
+
+`TriageService.clasificar()` le pasa `regla.banderas` y `regla.razonamiento` (ya calculados por `classify_by_rules()`) a `GeminiAdapter.generar_resumen_clinico()` y `sugerir_triage()`, además del contexto del RAG.
+
+**Por qué:** antes el LLM redactaba el resumen y su propia sugerencia de triage sin saber qué banderas ya había detectado el motor de reglas — podía sonar "leve" mientras el sistema terminaba asignando Triage I por una regla que el LLM nunca vio. Ahora el prompt se lo dice explícitamente (ver [`logica_clinica.md`](logica_clinica.md)), así el texto generado queda coherente con el nivel que las reglas van a forzar de todas formas vía `more_urgent()`.
 
 ## Dos stores en memoria, no en base de datos (todavía)
 
